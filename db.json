@@ -1,0 +1,19 @@
+{
+  "attacks": [
+    { "id": 1, "title": "stuxnet", 
+      "tactics": [
+        {
+          "title": "reconnaissance", 
+          "techniques": [
+            { "title": "Access Token Manipulation" }
+          ]
+        },
+        {
+          "title": "kfkf", 
+          "techniques": [
+            { "title": "fjjfjf" }
+          ]
+        }
+      ]}
+  ]
+}

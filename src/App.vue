@@ -23,7 +23,6 @@
     <b-field>
       <b-input type="textarea"
         minlength="10"
-        maxlength="100"
         placeholder="Submit Report"
         v-model="searchTextArea">
       </b-input> 
@@ -34,36 +33,14 @@
   <b-button type="is-link is-light" rounded @click="submitTextForm">Predict !</b-button><br />
   <br>
 
-  <!-- <div class="columns">
-    <div class="column">
-      <div class="card" v-for="tactic in tactics" :key="tactic.title">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{tactic[0].title}}
-        </p>
-      </header>
-      <div class="card-content">
-        <div class="content is-primary">
-          <ul>
-            <li v-for="technique in tactic[0].techniques" :key="technique.title">
-              {{technique.title}}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-
 
 <div class="columns" v-if="display_boxes">
-  
 
   <div class="column">
         <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          1) Reconnaissance
+          {{d_tactic[0].label}}
         </p>
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
@@ -71,7 +48,7 @@
           </span>
         </button>
       </header>
-      <div class="card-content">
+      <div class="card-content" :class="{ 'has-background-success': fake_tactics.includes(d_tactic[0].id), 'has-background-danger': !fake_tactics.includes(d_tactic[0].id) }">
         <div class="content">
           Technique 1 
         </div>
@@ -128,7 +105,7 @@
           </span>
         </button>
       </header>
-      <div class="card-content has-background-success">
+      <div class="card-content">
         <div class="content">
           Technique 4 
         </div>
@@ -344,7 +321,7 @@
 </div>
 
   
-  </div>
+</div>
 </template>
 
 <script>
@@ -354,10 +331,20 @@ export default {
   name: 'App',
   data() {
     return {
+      d_tactic: [
+        {
+          id: 'TA0006',
+          label: '1) Reconnaissance'
+        }
+      ],
+
       searchBar: '',
-      searchTextArea: '',
-      api_url: "http://localhost:3000/attacks",
+      searchTextArea: '', 
+      //d_text = {'sentence': searchTextArea}, // created dictionary for input text
+      api_url: "http://localhost:8000/classification", // change api address 
       tactics: [],
+      fake_tactics: ['TA0006', 'TA0002', 'TA0040', 'TA0004', 'TA0008', 'TA0005',
+       'TA0010', 'TA0007', 'TA0009', 'TA0011'],
       display_boxes: false,
     }
   },
@@ -366,10 +353,14 @@ export default {
       alert(this.searchBar)
     },
     async submitTextForm(){ // asynchronous request
-      this.tactics = []
-      let response = await axios.get(this.api_url)
-      console.log(response.data)
-      this.tactics = response.data
+      //this.d_text = response.data
+      //this.tactics = []
+      console.log(this.fake_tactics.includes('TA0006'))
+      let response = await axios.post(this.api_url, {'sentence': this.searchTextArea}) // call API
+      .then(response => this.tactics = response.data) // retrieve response
+      
+      //this.searchTextArea = response.data
+      //this.tactics = response.data
       this.display_boxes = true
       //response.data.forEach(element =>{
       //  this.tactics.push(element.tactics)

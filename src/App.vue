@@ -43,6 +43,7 @@
       <header class="card-header">
         <p class="card-header-title">
           {{d_tactic[0].label}}
+          {{searchProbabilityValue(d_tactic[0].id)}}
         </p>
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
@@ -107,7 +108,9 @@
       <header class="card-header">
         <p class="card-header-title">
           {{d_tactic[3].label}}
+          {{searchProbabilityValue(d_tactic[3].id)}}%
         </p>
+
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -312,7 +315,9 @@
       type="is-info" 
       has-icon 
       aria-close-label="Relevant Sentences: ">
-      {{sentences}}
+      <p v-for="(sentence, index) in sentences" :key="index" class="my-4">
+        {{sentence}}
+      </p>
     </b-message>
   </div>
 </div>
@@ -1295,13 +1300,17 @@ export default {
       ],
       tactics: [],
       techniques: [],
+      search_tactics: [],
+      search_techniques: [],
+      description: "",
       probabilities: [],
       sentences: [],
       searchBar: '',
       searchTextArea: '', 
       api_url: "http://localhost:8000/classification", // change api address 
       search_url: "http://localhost:8000/searchattack",
-      display_boxes: false,
+      textForm_display_boxes: false,
+      searchForm_display_boxes: false
     }
   },
   methods: {
@@ -1309,26 +1318,34 @@ export default {
       alert(this.searchBar)
       let response = await axios.post(this.search_url, {'sentence': this.searchBar}) // call API
       .then(response => {
-        this.tactics = response.data.tactics
-        this.techniques = response.data.techniques
+        this.search_techniques = response.data.techniques
+        this.description = response.data.description
         }) // retrieve response
-      this.display_boxes = true
+      this.searchForm_display_boxes = true
     },
     async submitTextForm(){ // asynchronous request
       let response = await axios.post(this.api_url, {'sentence': this.searchTextArea}) // call API
       .then(response => {
-        console.log(response.data)
+        console.log(response)
         this.tactics = response.data.tactics
         this.techniques = response.data.techniques
         this.sentences = response.data.relevant_sents
-        // this.probabilities = response.data.relevant_tactic_dict
-        // for (let [key, value] of Object.entries(this.probabilities)) {
-        //   console.log(`${key}: ${value}`);
-        //   this.probabilities.push("truc");
-        //   this.probabilities.push("machin");
-        // }
+        for (let [key, value] of Object.entries(response.data.relevant_tactic_dict)) {
+          console.log(`${key}: ${value}`);
+          this.probabilities.push(key);
+          this.probabilities.push(value);
+        }
       }) // retrieve response
-      this.display_boxes = true
+      this.textForm_display_boxes = true
+    },
+    searchProbabilityValue(tacticID){
+      console.log(this.probabilities)
+      const isSameValue = (element) => element == tacticID
+      const keyIndex = this.probabilities.findIndex(isSameValue);
+      console.log(keyIndex)
+      if(keyIndex != -1){
+        return this.probabilities[keyIndex + 1];
+      }
     }
   },
 }

@@ -14,7 +14,9 @@
   <div class="searchBar">
     <b-input placeholder="Search..." rounded v-model="searchBar"></b-input>
   </div>
-  
+  <br>
+  <b-button type="is-link is-light" rounded @click="submitSearchForm">Search !</b-button><br />
+
   <br>
   <h2>or enter directly a report to retrieve its corresponding TTPs</h2>
   <br>
@@ -50,7 +52,7 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[0].id), 'has-background-danger': !tactics.includes(d_tactic[0].id) }">
         <div class="content" >
-          <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[0].d_techniques[0].id), 'has-background-warning': !techniques.includes(d_tactic[0].d_techniques[0].id) }">
+          <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
@@ -71,14 +73,14 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[1].id), 'has-background-danger': !tactics.includes(d_tactic[1].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[1].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[1].d_techniques[1].id), 'has-background-warning': !techniques.includes(d_tactic[1].d_techniques[1].id) }">
+          <b-message v-for="technique in d_tactic[1].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
-   <div class="column">
+  <div class="column">
         <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -92,14 +94,15 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[2].id), 'has-background-danger': !tactics.includes(d_tactic[2].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[2].d_techniques[2].id), 'has-background-warning': !techniques.includes(d_tactic[2].d_techniques[2].id) }">
+          <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
-   <div class="column">
+
+  <div class="column">
         <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -113,13 +116,14 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[3].id), 'has-background-danger': !tactics.includes(d_tactic[3].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[3].d_techniques[3].id), 'has-background-warning': !techniques.includes(d_tactic[3].d_techniques[3].id) }">
+          <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
+  
    <div class="column">
         <div class="card">
       <header class="card-header">
@@ -134,7 +138,7 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[4].id), 'has-background-danger': !tactics.includes(d_tactic[4].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[4].d_techniques[4].id), 'has-background-warning': !techniques.includes(d_tactic[4].d_techniques[4].id) }">
+          <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message> 
         </div>
@@ -158,13 +162,14 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[5].id), 'has-background-danger': !tactics.includes(d_tactic[5].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[5].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[5].d_techniques[5].id), 'has-background-warning': !techniques.includes(d_tactic[5].d_techniques[5].id) }">
+          <b-message v-for="technique in d_tactic[5].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
+
   <div class="column">
         <div class="card">
       <header class="card-header">
@@ -179,13 +184,15 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[6].id), 'has-background-danger': !tactics.includes(d_tactic[6].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[6].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[6].d_techniques[6].id), 'has-background-warning': !techniques.includes(d_tactic[6].d_techniques[6].id) }">
+          <b-message v-for="technique in d_tactic[6].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
+
+
    <div class="column">
         <div class="card">
       <header class="card-header">
@@ -200,14 +207,16 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[7].id), 'has-background-danger': !tactics.includes(d_tactic[7].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[7].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[7].d_techniques[7].id), 'has-background-warning': !techniques.includes(d_tactic[7].d_techniques[7].id) }">
+          <b-message v-for="technique in d_tactic[7].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message> 
         </div>
       </div>
     </div>
   </div>
-   <div class="column">
+
+  
+  <div class="column">
         <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -221,15 +230,18 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[8].id), 'has-background-danger': !tactics.includes(d_tactic[8].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[8].d_techniques[8].id), 'has-background-warning': !techniques.includes(d_tactic[8].d_techniques[8].id) }">
+          <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message> 
         </div>
       </div>
     </div>
   </div>
-   <div class="column">
-        <div class="card">
+</div>
+
+<div class="columns" v-if="display_boxes">
+  <div class="column">
+    <div class="card">
       <header class="card-header">
         <p class="card-header-title">
           {{d_tactic[9].label}}
@@ -242,17 +254,14 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[9].id), 'has-background-danger': !tactics.includes(d_tactic[9].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[9].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[9].d_techniques[9].id), 'has-background-warning': !techniques.includes(d_tactic[9].d_techniques[9].id) }">
+          <b-message v-for="technique in d_tactic[9].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id)}" >
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
   </div>
-</div>
- 
-
-<div class="columns" v-if="display_boxes">
+  
   <div class="column">
         <div class="card">
       <header class="card-header">
@@ -267,7 +276,7 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[10].id), 'has-background-danger': !tactics.includes(d_tactic[10].id) }"> 
         <div class="content">
-          <b-message v-for="technique in d_tactic[10].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[10].d_techniques[10].id), 'has-background-warning': !techniques.includes(d_tactic[10].d_techniques[10].id) }">
+          <b-message v-for="technique in d_tactic[10].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
@@ -275,7 +284,7 @@
     </div>
   </div>
   <div class="column">
-        <div class="card">
+    <div class="card">
       <header class="card-header">
         <p class="card-header-title">
           {{d_tactic[11].label}}
@@ -288,18 +297,27 @@
       </header>
       <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[11].id), 'has-background-danger': !tactics.includes(d_tactic[11].id) }">
         <div class="content">
-          <b-message v-for="technique in d_tactic[11].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(d_tactic[11].d_techniques[11].id), 'has-background-warning': !techniques.includes(d_tactic[11].d_techniques[11].id) }">
+          <b-message v-for="technique in d_tactic[11].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
           </b-message>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </div> 
 </div>
 
-  
+  <div class="sent" v-if="display_boxes">
+    <b-message 
+      title="Relevant Sentences:" 
+      type="is-info" 
+      has-icon 
+      aria-close-label="Relevant Sentences: ">
+      {{sentences}}
+    </b-message>
+  </div>
 </div>
+
+
 </template>
 
 <script>
@@ -528,7 +546,7 @@ export default {
             },
             {
               id: 'T1133', 
-              label: 'xy'
+              label: 'External Remote Services'
             },
             {
               id: 'T1574',
@@ -560,7 +578,7 @@ export default {
             },
             {
               id: 'T1205',
-              label: 'raffic Signaling'
+              label: 'Traffic Signaling'
             },
             {
               id: 'T1078', 
@@ -624,7 +642,7 @@ export default {
         },
         {
           id: 'TA0005', 
-          label: '6) Defense Evasion (TA0005)',
+          label: '7) Defense Evasion (TA0005)',
           d_techniques: [
             {
               id: 'T1548', 
@@ -732,7 +750,7 @@ export default {
             },
             {
               id: 'T1055', 
-              label: 'xy'
+              label: 'Process Injection'
             },
             {
               id: 'T1620', 
@@ -798,7 +816,7 @@ export default {
         },
         {
           id: 'TA0006',
-          label: '6) Credential Access (TA0006)',
+          label: '8) Credential Access (TA0006)',
           d_techniques: [
             {
               id: 'T1557', 
@@ -868,7 +886,7 @@ export default {
         },
         {
           id: 'TA0007',
-          label: '7) Discovery (TA0007)',
+          label: '9) Discovery (TA0007)',
           d_techniques: [
             {
               id: 'T1046', 
@@ -908,7 +926,7 @@ export default {
             },
             {
               id: 'T1622', 
-              label: 'xy'
+              label: 'Debugger Evasion'
             },
             {
               id: 'T1482', 
@@ -990,7 +1008,7 @@ export default {
         },
         {
           id: 'TA0008', 
-          label: '8) Lateral Movement (TA0008)',
+          label: '10) Lateral Movement (TA0008)',
           d_techniques: [
             {
               id: 'T1210', 
@@ -1032,7 +1050,7 @@ export default {
         },
         {
           id: 'TA0009',
-          label: '9) Collection (TA0009)', 
+          label: '11) Collection (TA0009)', 
           d_techniques: [
             {
               id: 'T1557', 
@@ -1106,7 +1124,7 @@ export default {
         },
         {
           id: 'TA0011',
-          label: '10) Command and Control (TA0011)',
+          label: '12) Command and Control (TA0011)',
           d_techniques: [
             {
               id: 'T1071', 
@@ -1176,7 +1194,7 @@ export default {
         },
         {
           id: 'TA0010', 
-          label: '11) Exfiltration (TA0010)',
+          label: '13) Exfiltration (TA0010)',
           d_techniques: [
             {
               id: 'T1020', 
@@ -1218,7 +1236,7 @@ export default {
         },
         {
           id: 'TA0040',
-          label: '12) Impact',
+          label: '14) Impact',
           d_techniques: [
             {
               id: 'T1531', 
@@ -1277,22 +1295,39 @@ export default {
       ],
       tactics: [],
       techniques: [],
+      probabilities: [],
+      sentences: [],
       searchBar: '',
       searchTextArea: '', 
       api_url: "http://localhost:8000/classification", // change api address 
+      search_url: "http://localhost:8000/searchattack",
       display_boxes: false,
     }
   },
   methods: {
-    submitSearchForm() {
+    async submitSearchForm() {
       alert(this.searchBar)
-    },
-    async submitTextForm(){ // asynchronous request
-      let response = await axios.post(this.api_url, {'sentence': this.searchTextArea}) // call API
+      let response = await axios.post(this.search_url, {'sentence': this.searchBar}) // call API
       .then(response => {
         this.tactics = response.data.tactics
         this.techniques = response.data.techniques
         }) // retrieve response
+      this.display_boxes = true
+    },
+    async submitTextForm(){ // asynchronous request
+      let response = await axios.post(this.api_url, {'sentence': this.searchTextArea}) // call API
+      .then(response => {
+        console.log(response.data)
+        this.tactics = response.data.tactics
+        this.techniques = response.data.techniques
+        this.sentences = response.data.relevant_sents
+        // this.probabilities = response.data.relevant_tactic_dict
+        // for (let [key, value] of Object.entries(this.probabilities)) {
+        //   console.log(`${key}: ${value}`);
+        //   this.probabilities.push("truc");
+        //   this.probabilities.push("machin");
+        // }
+      }) // retrieve response
       this.display_boxes = true
     }
   },

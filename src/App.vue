@@ -35,276 +35,1025 @@
   <b-button type="is-link is-light" rounded @click="submitTextForm">Predict !</b-button><br />
   <br>
 
+<b-loading :is-full-page="true" v-model="isLoading" :can-cancel="true"></b-loading>
 
-<div class="columns" v-if="display_boxes">
+<!-- Affichage search bar -->
+<b-notification v-if="search_display_boxes"
+  type="is-warning is-light"
+  aria-close-label="Close notification"
+  role="alert">
+  {{this.description}}
+</b-notification>
+
+<!-- Affichage input text -->
+<div class="columns" v-if="display_boxes || search_display_boxes">
 
   <div class="column">
         <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[0].label}}
           {{searchProbabilityValue(d_tactic[0].id)}}
         </p>
+        <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[0].description}}
+            </p>
+        </b-collapse>
+       
+
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
+      
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[0].id), 'has-background-danger': !tactics.includes(d_tactic[0].id) }">
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[0].id), 'has-background-danger': !tactics.includes(d_tactic[0].id) }">
         <div class="content" >
           <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+        </b-collapse>
           </b-message>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="column">
-        <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{d_tactic[1].label}}
-        </p>
-        <button class="card-header-icon" aria-label="more options">
-          <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[1].id), 'has-background-danger': !tactics.includes(d_tactic[1].id) }">
-        <div class="content">
-          <b-message v-for="technique in d_tactic[1].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
-            {{technique.label}}
-          </b-message>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="column">
-        <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{d_tactic[2].label}}
-        </p>
-        <button class="card-header-icon" aria-label="more options">
-          <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[2].id), 'has-background-danger': !tactics.includes(d_tactic[2].id) }">
-        <div class="content">
-          <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
-            {{technique.label}}
-          </b-message>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="column">
-        <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{d_tactic[3].label}}
-          {{searchProbabilityValue(d_tactic[3].id)}}%
-        </p>
-
-        <button class="card-header-icon" aria-label="more options">
-          <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[3].id), 'has-background-danger': !tactics.includes(d_tactic[3].id) }">
-        <div class="content">
-          <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
-            {{technique.label}}
-          </b-message>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-   <div class="column">
-        <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{d_tactic[4].label}}
-        </p>
-        <button class="card-header-icon" aria-label="more options">
-          <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[4].id), 'has-background-danger': !tactics.includes(d_tactic[4].id) }">
+      <div v-if="search_display_boxes" class="card-content">
         <div class="content">
           <b-message v-for="technique in d_tactic[0].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
           </b-message> 
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="columns" v-if="display_boxes">
+<!-- Box 1 -->
   <div class="column">
-        <div class="card">
-      <header class="card-header">
+    <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
-          {{d_tactic[5].label}}
+          {{d_tactic[1].label}}
+          {{searchProbabilityValue(d_tactic[1].id)}}
         </p>
+
+        <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[1].description}}
+            </p>
+        </b-collapse>
+
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+
+      </header>
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[1].id), 'has-background-danger': !tactics.includes(d_tactic[1].id) }">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[1].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
+          </b-message>
+        </div>
+      </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[1].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Box 2 -->
+  <div class="column">
+    <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
+        <p class="card-header-title">
+          {{d_tactic[2].label}}
+          {{searchProbabilityValue(d_tactic[2].id)}}
+        </p>
+
+        <b-collapse 
+          :open="false" 
+          position="is-bottom" 
+          aria-id="contentIdForA11y4">
+          <template #trigger="props">
+              <a
+                  aria-controls="contentIdForA11y4"
+                  :aria-expanded="props.open">
+                  <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                  {{ !props.open ? 'Show description' : 'Hide' }}
+              </a>
+          </template>
+          <p>
+            {{d_tactic[2].description}}
+          </p>
+        </b-collapse>
+    
+
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[5].id), 'has-background-danger': !tactics.includes(d_tactic[5].id) }">
+
+      <div  v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[2].id), 'has-background-danger': !tactics.includes(d_tactic[2].id) }">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+              :open="false" 
+              position="is-bottom" 
+              aria-id="contentIdForA11y4">
+              <template #trigger="props">
+                  <a
+                      aria-controls="contentIdForA11y4"
+                      :aria-expanded="props.open">
+                      <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                      {{ !props.open ? 'Show description' : 'Hide' }}
+                  </a>
+              </template>
+              <p>
+                {{technique.description}}
+              </p>
+            </b-collapse>
+          </b-message>
+        </div>
+      </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
+    </div>
+  </div>
+<!-- Box 3 -->
+  <div class="column">
+    <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
+        <p class="card-header-title">
+          {{d_tactic[3].label}}
+          {{searchProbabilityValue(d_tactic[3].id)}}
+        </p>
+        
+        <b-collapse 
+          :open="false" 
+          position="is-bottom" 
+          aria-id="contentIdForA11y4">
+          <template #trigger="props">
+              <a
+                  aria-controls="contentIdForA11y4"
+                  :aria-expanded="props.open">
+                  <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                  {{ !props.open ? 'Show description' : 'Hide' }}
+              </a>
+          </template>
+          <p>
+              {{d_tactic[3].description}}
+          </p>
+        </b-collapse>
+        
+
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      
+      </header>
+      <div  v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[3].id), 'has-background-danger': !tactics.includes(d_tactic[3].id) }">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
+          </b-message>
+        </div>
+      </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Box 4 -->
+   <div class="column">
+      <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
+        <p class="card-header-title">
+          {{d_tactic[4].label}}
+          {{searchProbabilityValue(d_tactic[4].id)}}
+        </p>
+
+        <b-collapse 
+          :open="false" 
+          position="is-bottom" 
+          aria-id="contentIdForA11y4">
+          <template #trigger="props">
+              <a
+                  aria-controls="contentIdForA11y4"
+                  :aria-expanded="props.open">
+                  <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                  {{ !props.open ? 'Show description' : 'Hide' }}
+              </a>
+          </template>
+          <p>
+              {{d_tactic[4].description}}
+          </p>
+        </b-collapse>
+        
+
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      
+      </header>
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[4].id), 'has-background-danger': !tactics.includes(d_tactic[4].id) }">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[4].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+              :open="false" 
+              position="is-bottom" 
+              aria-id="contentIdForA11y4">
+              <template #trigger="props">
+                  <a
+                      aria-controls="contentIdForA11y4"
+                      :aria-expanded="props.open">
+                      <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                      {{ !props.open ? 'Show description' : 'Hide' }}
+                  </a>
+              </template>
+              <p>
+                {{technique.description}}
+              </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[4].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Box 5 -->
+<div class="columns" v-if="display_boxes || search_display_boxes">
+  <div class="column">
+        <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
+        <p class="card-header-title">
+          {{d_tactic[5].label}}
+          {{searchProbabilityValue(d_tactic[5].id)}}
+        </p>
+
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[5].description}}
+            </p>
+        </b-collapse>
+
+        
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      
+      </header>
+      <div  v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[5].id), 'has-background-danger': !tactics.includes(d_tactic[5].id) }">
         <div class="content">
           <b-message v-for="technique in d_tactic[5].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message>
         </div>
       </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[5].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div>
-
+<!-- Box 6 -->
   <div class="column">
         <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[6].label}}
-        </p>
+          {{searchProbabilityValue(d_tactic[6].id)}}
+        </p>      
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[6].description}}
+            </p>
+        </b-collapse>
+
+        
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
+      
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[6].id), 'has-background-danger': !tactics.includes(d_tactic[6].id) }">
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[6].id), 'has-background-danger': !tactics.includes(d_tactic[6].id) }">
         <div class="content">
           <b-message v-for="technique in d_tactic[6].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message>
         </div>
       </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[6].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div>
 
-
+<!-- Box 7 -->
    <div class="column">
         <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[7].label}}
+          {{searchProbabilityValue(d_tactic[7].id)}}
         </p>
+
+        <b-collapse 
+          :open="false" 
+          position="is-bottom" 
+          aria-id="contentIdForA11y4">
+          <template #trigger="props">
+              <a
+                  aria-controls="contentIdForA11y4"
+                  :aria-expanded="props.open">
+                  <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                  {{ !props.open ? 'Show description' : 'Hide' }}
+              </a>
+          </template>
+          <p>
+              {{d_tactic[7].description}}
+          </p>
+        </b-collapse>
+
+        
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[7].id), 'has-background-danger': !tactics.includes(d_tactic[7].id) }">
+      
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[7].id), 'has-background-danger': !tactics.includes(d_tactic[7].id) }">
         <div class="content">
           <b-message v-for="technique in d_tactic[7].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message> 
         </div>
       </div>
-    </div>
-  </div>
 
-  
-  <div class="column">
-        <div class="card">
-      <header class="card-header">
-        <p class="card-header-title">
-          {{d_tactic[8].label}}
-        </p>
-        <button class="card-header-icon" aria-label="more options">
-          <span class="icon">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[8].id), 'has-background-danger': !tactics.includes(d_tactic[8].id) }">
+      <div v-if="search_display_boxes" class="card-content">
         <div class="content">
           <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
           </b-message> 
         </div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- Box 8 -->
+  <div class="column">
+        <div class="card">
+      <header class="card-header is-flex is-flex-direction-column">
+        <p class="card-header-title">
+          {{d_tactic[8].label}}
+          {{searchProbabilityValue(d_tactic[8].id)}}
+        </p>
+
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[8].description}}
+            </p>
+        </b-collapse>
+
+        
+        <button class="card-header-icon" aria-label="more options">
+          <span class="icon">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      
+      </header>
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[8].id), 'has-background-danger': !tactics.includes(d_tactic[8].id) }">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
-
+<!-- Box 9 -->
 <div class="columns" v-if="display_boxes">
   <div class="column">
     <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[9].label}}
+          {{searchProbabilityValue(d_tactic[9].id)}}
         </p>
+
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[9].description}}
+            </p>
+        </b-collapse>
+
+        
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
+      
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[9].id), 'has-background-danger': !tactics.includes(d_tactic[9].id) }">
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[9].id), 'has-background-danger': !tactics.includes(d_tactic[9].id) }">
         <div class="content">
           <b-message v-for="technique in d_tactic[9].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id)}" >
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message>
         </div>
       </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[9].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div>
-  
+  <!-- Box 10 -->
   <div class="column">
         <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[10].label}}
+          {{searchProbabilityValue(d_tactic[10].id)}}
         </p>
+
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[10].description}}
+            </p>
+        </b-collapse>
+
+        
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
+      
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[10].id), 'has-background-danger': !tactics.includes(d_tactic[10].id) }"> 
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[10].id), 'has-background-danger': !tactics.includes(d_tactic[10].id) }"> 
         <div class="content">
           <b-message v-for="technique in d_tactic[10].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message>
         </div>
       </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[10].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <!-- Box 11 -->
   <div class="column">
     <div class="card">
-      <header class="card-header">
+      <header class="card-header is-flex is-flex-direction-column">
         <p class="card-header-title">
           {{d_tactic[11].label}}
-        </p>
+          {{searchProbabilityValue(d_tactic[11].id)}}
+         </p>
+
+          <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{d_tactic[11].description}}
+            </p>
+          </b-collapse>
+       
         <button class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
+      
       </header>
-      <div class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[11].id), 'has-background-danger': !tactics.includes(d_tactic[11].id) }">
+      <div v-if="display_boxes" class="card-content" :class="{ 'has-background-success': tactics.includes(d_tactic[11].id), 'has-background-danger': !tactics.includes(d_tactic[11].id) }">
         <div class="content">
           <b-message v-for="technique in d_tactic[11].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            <b-collapse 
+            :open="false" 
+            position="is-bottom" 
+            aria-id="contentIdForA11y4">
+            <template #trigger="props">
+                <a
+                    aria-controls="contentIdForA11y4"
+                    :aria-expanded="props.open">
+                    <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                    {{ !props.open ? 'Show description' : 'Hide' }}
+                </a>
+            </template>
+            <p>
+               {{technique.description}}
+            </p>
+          </b-collapse>
           </b-message>
         </div>
       </div>
+
+      <div v-if="search_display_boxes" class="card-content">
+        <div class="content">
+          <b-message v-for="technique in d_tactic[11].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+            {{technique.label}}
+            <b-collapse 
+                :open="false" 
+                position="is-bottom" 
+                aria-id="contentIdForA11y4">
+                <template #trigger="props">
+                    <a
+                        aria-controls="contentIdForA11y4"
+                        :aria-expanded="props.open">
+                        <b-icon :icon="!props.open ? 'menu-down' : 'menu-up'"></b-icon>
+                        {{ !props.open ? 'Show description' : 'Hide' }}
+                    </a>
+                </template>
+                <p>
+                  {{technique.description}}
+                </p>
+            </b-collapse>
+          </b-message> 
+        </div>
+      </div>
+
     </div>
   </div> 
 </div>
@@ -336,14 +1085,17 @@ export default {
         {
           id: 'TA0043',
           label: '1) Reconnaissance (TA0043)',
+          description: "The adversary is trying to establish resources they can use to support operations.",
           d_techniques: [
             {
               id: 'T1595', 
-              label: 'Active Scanning'
+              label: 'Active Scanning',
+              description: 'Adversaries may execute active reconnaissance scans to gather information that can be used during targeting. Active scans are those where the adversary probes victim infrastructure via network traffic, as opposed to other forms of reconnaissance that do not involve direct interaction.'
             },
             {
               id: 'T1592',
-              label: 'Gather Victim Host Information'
+              label: 'Gather Victim Host Information',
+              description: 'Adversaries may gather information about the victim hosts that can be used during targeting. Information about hosts may include a variety of details, including administrative data (ex: name, assigned IP, functionality, etc.) as well as specifics regarding its configuration (ex: operating system, language, etc.).'
             },
             {
               id: 'T1589',
@@ -382,6 +1134,7 @@ export default {
         {
           id: 'TA0042', 
           label: '2) Resource Development (TA0042)',
+          description: "The adversary is trying to establish resources they can use to support operations.",
           d_techniques: [
             {
               id: 'T1583', 
@@ -416,6 +1169,7 @@ export default {
         {
           id: 'TA0001',
           label: '3) Initial Access (TA0001)',
+          description: 'The adversary is trying to get into your network.',
           d_techniques: [
             {
               id: 'T1189', 
@@ -799,7 +1553,7 @@ export default {
             },
             {
               id: 'T1550', 
-              label: 'se Alternate Authentication Material'
+              label: 'Use Alternate Authentication Material'
             },
             {
               id: 'T1078', 
@@ -1300,30 +2054,36 @@ export default {
       ],
       tactics: [],
       techniques: [],
-      search_tactics: [],
-      search_techniques: [],
       description: "",
       probabilities: [],
       sentences: [],
       searchBar: '',
       searchTextArea: '', 
+      isLoading: false, 
       api_url: "http://localhost:8000/classification", // change api address 
       search_url: "http://localhost:8000/searchattack",
-      textForm_display_boxes: false,
-      searchForm_display_boxes: false
+      display_boxes: false,
+      search_display_boxes: false,
     }
   },
   methods: {
     async submitSearchForm() {
-      alert(this.searchBar)
+      this.search_display_boxes = false
+      this.display_boxes = false
+      this.isLoading = true
       let response = await axios.post(this.search_url, {'sentence': this.searchBar}) // call API
       .then(response => {
-        this.search_techniques = response.data.techniques
+        this.techniques = response.data.techniques
         this.description = response.data.description
         }) // retrieve response
-      this.searchForm_display_boxes = true
+      this.isLoading = false
+      this.search_display_boxes = true
+      this.display_boxes = false
     },
     async submitTextForm(){ // asynchronous request
+      this.display_boxes = false
+      this.search_display_boxes = false
+      this.isLoading = true
       let response = await axios.post(this.api_url, {'sentence': this.searchTextArea}) // call API
       .then(response => {
         console.log(response)
@@ -1336,7 +2096,9 @@ export default {
           this.probabilities.push(value);
         }
       }) // retrieve response
-      this.textForm_display_boxes = true
+      this.isLoading = false
+      this.display_boxes = true
+      this.search_display_boxes = false
     },
     searchProbabilityValue(tacticID){
       console.log(this.probabilities)

@@ -1,0 +1,6 @@
+{
+    "name": "2aCTI",
+    "description": "Vue.js app for 2aCTI",
+    "keywords": ["node", "express", "heroku"],
+    "image": "heroku/nodejs"
+}

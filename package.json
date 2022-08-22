@@ -3,22 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "serve": "node server.js",
     "build": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
-    "lint": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service lint",
-    "db-start": "json-server --watch db.json"
+    "lint": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service lint"
+  },
+  "engines": {
+    "node": "17.4.0"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "buefy": "^0.9.21",
     "core-js": "^3.6.5",
+    "express": "^4.18.1",
     "json-server": "^0.17.0",
+    "serve-static": "^1.15.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-service": "~4.5.15",
-    "vue-template-compiler": "^2.6.11"
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "@vue/cli-service": "^5.0.4",
+    "vue-template-compiler": "^2.6.12"
   },
   "browserslist": [
     "> 1%",

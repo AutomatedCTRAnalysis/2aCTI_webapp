@@ -7,18 +7,29 @@
 
 
   <h1 class="title mt-0">Automated Analysis of Cyber Threat Intelligence</h1>
+
+   <b-message 
+      title="Welcome!" 
+      type="is-warning" 
+      aria-close-label="Close message">
+      This system is built to retrieve and predict Tactics and Techniques (TTPs) according to MITRE's ATTACK framework.
+      Using web-scraping techniques and Machine Learning classifiers, 2aCTI allows users to search for TTPs used in passed attacks
+      or predict their presence in CTI reports.
+    </b-message>
+
+
   
-  <h2 class="mx-6">Enter the name of a report to predict the tactics and techniques (TTPs)</h2>
+  <h2 class="mx-6">Enter the name of a malware to retrieve the Tactics and Techniques used according to MITRE's database  </h2>
   <br><br>
 
   <div class="searchBar">
     <b-input placeholder="Search..." rounded v-model="searchBar"></b-input>
   </div>
   <br>
-  <b-button type="is-link is-light" rounded @click="submitSearchForm">Search !</b-button><br />
+  <b-button type="is-link is-light" rounded @click="submitSearchForm">Search!</b-button><br />
 
   <br>
-  <h2>or enter directly a report to retrieve its corresponding TTPs</h2>
+  <h2> Or enter directly a CTI report to predict the corresponding TTPs</h2>
   <br>
 
   <div class="textbox">
@@ -32,7 +43,7 @@
     <br>
   </div>
 
-  <b-button type="is-link is-light" rounded @click="submitTextForm">Predict !</b-button><br />
+  <b-button type="is-link is-light" rounded @click="submitTextForm">Predict!</b-button><br />
   <br>
 
 <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="true"></b-loading>
@@ -1456,7 +1467,7 @@ export default {
         },
         {
           id: 'TA0003', 
-          label: '3) Persistence (TA0003)',
+          label: '5) Persistence (TA0003)',
           description: 'The adversary is trying to maintain their foothold.',
           d_techniques: [
             {
@@ -1558,7 +1569,7 @@ export default {
         },
         {
           id: 'TA0004', 
-          label: '4) Privilege Escalation (TA0004)',
+          label: '6) Privilege Escalation (TA0004)',
           description: 'The adversary is trying to gain higher-level permissions.',
           d_techniques: [
             {
@@ -1625,7 +1636,7 @@ export default {
         },
         {
           id: 'TA0005', 
-          label: '5) Defense Evasion (TA0005)',
+          label: '7) Defense Evasion (TA0005)',
           description: 'The adversary is trying to avoid being detected.',
           d_techniques: [
             {
@@ -1842,7 +1853,7 @@ export default {
         },
         {
           id: 'TA0006',
-          label: '6) Credential Access (TA0006)',
+          label: '8) Credential Access (TA0006)',
           description: 'The adversary is trying to steal account names and passwords.',
           d_techniques: [
             {
@@ -1934,39 +1945,48 @@ export default {
           d_techniques: [
             {
               id: 'T1046', 
-              label: 'Network Service Discovery'
+              label: 'Network Service Discovery',
+              description: 'Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port and/or vulnerability scans using tools that are brought onto a system.'
             },
             {
               id: 'T1087', 
-              label: 'Account Discovery'
+              label: 'Account Discovery', 
+              description: 'Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior.'
             },
             {
               id: 'T1010',
-              label: 'Application Window Discovery'
+              label: 'Application Window Discovery',
+              description: 'Adversaries may attempt to get a listing of open application windows. Window listings could convey information about how the system is used or give context to information collected by a keylogger.'
             },
             {
               id: 'T1217',
-              label: 'Browser Bookmark Discovery'
+              label: 'Browser Bookmark Discovery',
+              description: 'Adversaries may enumerate browser bookmarks to learn more about compromised hosts. Browser bookmarks may reveal personal information about users (ex: banking sites, interests, social media, etc.) as well as details about internal network resources such as servers, tools/dashboards, or other related infrastructure.'
             },
             {
               id: 'T1580', 
-              label: 'Cloud Infrastructure Discovery'
+              label: 'Cloud Infrastructure Discovery',
+              description: 'An adversary may attempt to discover infrastructure and resources that are available within an infrastructure-as-a-service (IaaS) environment. This includes compute service resources such as instances, virtual machines, and snapshots as well as resources of other services including the storage and database services.'
             },
             {
               id: 'T1538',
-              label: 'Cloud Service Dashboard'
+              label: 'Cloud Service Dashboard',
+              description: 'An adversary may use a cloud service dashboard GUI with stolen credentials to gain useful information from an operational cloud environment, such as specific services, resources, and features. For example, the GCP Command Center can be used to view all assets, findings of potential security risks, and to run additional queries, such as finding public IP addresses and open ports.'
             },
             {
               id: 'T1526',
-              label: 'Cloud Service Discovery'
+              label: 'Cloud Service Discovery',
+              description: 'An adversary may attempt to enumerate the cloud services running on a system after gaining access. These methods can differ from platform-as-a-service (PaaS), to infrastructure-as-a-service (IaaS), or software-as-a-service (SaaS). Many services exist throughout the various cloud providers and can include Continuous Integration and Continuous Delivery (CI/CD), Lambda Functions, Azure AD, etc.'
             },
             {
               id: 'T1619', 
-              label: 'Cloud Storage Object Discovery'
+              label: 'Cloud Storage Object Discovery',
+              description: 'Adversaries may enumerate objects in cloud storage infrastructure. Adversaries may use this information during automated discovery to shape follow-on behaviors, including requesting all or specific objects from cloud storage. Similar to File and Directory Discovery on a local host, after identifying available storage services (i.e. Cloud Infrastructure Discovery) adversaries may access the contents/objects stored in cloud infrastructure.'
             },
             {
               id: 'T1613',
-              label: 'Container and Resource Discovery'
+              label: 'Container and Resource Discovery',
+              description: 'Adversaries may attempt to discover containers and other resources that are available within a containers environment. Other resources may include images, deployments, pods, nodes, and other information such as the status of a cluster.'
             },
             {
               id: 'T1622', 
@@ -1975,75 +1995,93 @@ export default {
             },
             {
               id: 'T1482', 
-              label: 'Domain Trust Discovery'
+              label: 'Domain Trust Discovery',
+              description: 'Adversaries may attempt to gather information on domain trust relationships that may be used to identify lateral movement opportunities in Windows multi-domain/forest environments. Domain trusts provide a mechanism for a domain to allow access to resources based on the authentication procedures of another domain. Domain trusts allow the users of the trusted domain to access resources in the trusting domain. The information discovered may help the adversary conduct SID-History Injection, Pass the Ticket, and Kerberoasting. Domain trusts can be enumerated using the DSEnumerateDomainTrusts() Win32 API call, .NET methods, and LDAP. The Windows utility Nltest is known to be used by adversaries to enumerate domain trusts.'
             },
             {
               id: 'T1083',
-              label: 'File and Directory Discovery'
+              label: 'File and Directory Discovery',
+              description: 'Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from File and Directory Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1615', 
-              label: 'Group Policy Discovery'
+              label: 'Group Policy Discovery',
+              description: 'Adversaries may gather information on Group Policy settings to identify paths for privilege escalation, security measures applied within a domain, and to discover patterns in domain objects that can be manipulated or used to blend in the environment. Group Policy allows for centralized management of user and computer settings in Active Directory (AD). Group policy objects (GPOs) are containers for group policy settings made up of files stored within a predicable network path \\SYSVOL\\Policies\.'
             },
             {
               id: 'T1135', 
-              label: 'Network Share Discovery'
+              label: 'Network Share Discovery',
+              description: 'Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and to identify potential systems of interest for Lateral Movement. Networks often contain shared network drives and folders that enable users to access file directories on various systems across a network.'
             },
             {
               id: 'T1201', 
-              label: 'Password Policy Discovery'
+              label: 'Password Policy Discovery',
+              description: 'Adversaries may attempt to access detailed information about the password policy used within an enterprise network or cloud environment. Password policies are a way to enforce complex passwords that are difficult to guess or crack through Brute Force. This information may help the adversary to create a list of common passwords and launch dictionary and/or brute force attacks which adheres to the policy (e.g. if the minimum password length should be 8, then not trying passwords not checking for more than 3-4 passwords per account if the lockout is set to 6 as to not lock out accounts).'
             },
             {
               id: 'T1120',
-              label: 'Peripheral Device Discovery'
+              label: 'Peripheral Device Discovery',
+              description: 'Adversaries may attempt to gather information about attached peripheral devices and components connected to a computer system. Peripheral devices could include auxiliary resources that support a variety of functionalities such as keyboards, printers, cameras, smart card readers, or removable storage. The information may be used to enhance their awareness of the system and network environment or may be used for further actions.'
             },
             {
               id: 'T1069', 
-              label: 'Permission Groups Discovery'
+              label: 'Permission Groups Discovery',
+              description: 'Adversaries may attempt to find group and permission settings. This information can help adversaries determine which user accounts and groups are available, the membership of users in particular groups, and which users and groups have elevated permissions.'
             },
             {
               id: 'T1057', 
-              label: 'Process Discovery'
+              label: 'Process Discovery',
+              description: 'Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from Process Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1012',
-              label: 'Query Registry'
+              label: 'Query Registry',
+              description: 'Adversaries may interact with the Windows Registry to gather information about the system, configuration, and installed software.'
             },
             {
               id: 'T1018', 
-              label: 'Remote System Discovery'
+              label: 'Remote System Discovery',
+              description: 'Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system. Functionality could exist within remote access tools to enable this, but utilities available on the operating system could also be used such as Ping or net view using Net.'
             },
             {
               id: 'T1518', 
-              label: 'Software Discovery'
+              label: 'Software Discovery',
+              description: 'Adversaries may attempt to get a listing of software and software versions that are installed on a system or in a cloud environment. Adversaries may use the information from Software Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1082', 
-              label: 'System Information Discovery'
+              label: 'System Information Discovery',
+              description: 'An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from System Information Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1614',
-              label: 'System Location Discovery'
+              label: 'System Location Discovery',
+              description: 'Adversaries may gather information in an attempt to calculate the geographical location of a victim host. Adversaries may use the information from System Location Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1016', 
-              label: 'System Network Configuration Discovery'
+              label: 'System Network Configuration Discovery',
+              description: 'Adversaries may look for details about the network configuration and settings, such as IP and/or MAC addresses, of systems they access or through information discovery of remote systems. Several operating system administration utilities exist that can be used to gather this information. Examples include Arp, ipconfig/ifconfig, nbtstat, and route.'
             },
             {
               id: 'T1049',
-              label: 'System Network Connections Discovery'
+              label: 'System Network Connections Discovery',
+              description: 'Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network.'
             },
             {
               id: 'T1033', 
-              label: 'System Owner/User Discovery'
+              label: 'System Owner/User Discovery',
+              description: 'Adversaries may attempt to identify the primary user, currently logged in user, set of users that commonly uses a system, or whether a user is actively using the system. They may do this, for example, by retrieving account usernames or by using OS Credential Dumping. The information may be collected in a number of different ways using other Discovery techniques, because user and username details are prevalent throughout a system and include running process ownership, file/directory ownership, session information, and system logs. Adversaries may use the information from System Owner/User Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.'
             },
             {
               id: 'T1007', 
-              label: 'System Service Discovery'
+              label: 'System Service Discovery', 
+              description: 'Adversaries may try to gather information about registered local system services. Adversaries may obtain information about services using tools as well as OS utility commands such as sc query, tasklist /svc, systemctl --type=service, and net start.'
             },
             {
               id: 'T1124', 
-              label: 'System Time Discovery'
+              label: 'System Time Discovery',
+              description: 'An adversary may gather the system time and/or time zone from a local or remote system. The system time is set and stored by the Windows Time Service within a domain to maintain time synchronization between systems and services in an enterprise network.'
             },
             {
               id: 'T1497',
@@ -2059,39 +2097,48 @@ export default {
           d_techniques: [
             {
               id: 'T1210', 
-              label: 'Exploitation of Remote Services'
+              label: 'Exploitation of Remote Services',
+              description: 'Adversaries may exploit remote services to gain unauthorized access to internal systems once inside of a network. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code. A common goal for post-compromise exploitation of remote services is for lateral movement to enable access to a remote system.'
             },
             {
               id: 'T1534',
-              label: 'Internal Spearphishing'
+              label: 'Internal Spearphishing',
+              description: 'Adversaries may use internal spearphishing to gain access to additional information or exploit other users within the same organization after they already have access to accounts or systems within the environment. Internal spearphishing is multi-staged campaign where an email account is owned either by controlling the user\'s device with previously installed malware or by compromising the account credentials of the user. Adversaries attempt to take advantage of a trusted internal account to increase the likelihood of tricking the target into falling for the phish attempt.'
             },
             {
               id: 'T1570',
-              label: 'Lateral Tool Transfer'
+              label: 'Lateral Tool Transfer',
+              description: 'Adversaries may transfer tools or other files between systems in a compromised environment. Once brought into the victim environment (i.e. Ingress Tool Transfer) files may then be copied from one system to another to stage adversary tools or other files over the course of an operation. Adversaries may copy files between internal victim systems to support lateral movement using inherent file sharing protocols such as file sharing over SMB/Windows Admin Shares to connected network shares or with authenticated connections via Remote Desktop Protocol.'
             },
             {
               id: 'T1563', 
-              label: 'Remote Service Session Hijacking'
+              label: 'Remote Service Session Hijacking',
+              description: 'Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service.'
             },
             {
               id: 'T1021',
-              label: 'Remote Services'
+              label: 'Remote Services',
+              description: 'Adversaries may use Valid Accounts to log into a service specifically designed to accept remote connections, such as telnet, SSH, and VNC. The adversary may then perform actions as the logged-on user.'
             },
             {
               id: 'T1091',
-              label: 'Replication Through Removable Media'
+              label: 'Replication Through Removable Media',
+              description: 'Adversaries may move onto systems, possibly those on disconnected or air-gapped networks, by copying malware to removable media and taking advantage of Autorun features when the media is inserted into a system and executes. In the case of Lateral Movement, this may occur through modification of executable files stored on removable media or by copying malware and renaming it to look like a legitimate file to trick users into executing it on a separate system. In the case of Initial Access, this may occur through manual manipulation of the media, modification of systems used to initially format the media, or modification to the media\'s firmware itself.'
             },
             {
               id: 'T1072', 
-              label: 'Software Deployment Tools'
+              label: 'Software Deployment Tools', 
+              description: 'Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, HBSS, Altiris, etc.).'
             },
             {
               id: 'T1080',
-              label: 'Taint Shared Content'
+              label: 'Taint Shared Content',
+              description: 'Adversaries may deliver payloads to remote systems by adding content to shared storage locations, such as network drives or internal code repositories. Content stored on network drives or in other shared locations may be tainted by adding malicious programs, scripts, or exploit code to otherwise valid files. Once a user opens the shared tainted content, the malicious portion can be executed to run the adversary\'s code on a remote system. Adversaries may use tainted shared content to move laterally.'
             },
             {
               id: 'T1550', 
-              label: 'Use Alternate Authentication Material'
+              label: 'Use Alternate Authentication Material',
+              description: 'Adversaries may use alternate authentication material, such as password hashes, Kerberos tickets, and application access tokens, in order to move laterally within an environment and bypass normal system access controls.'
             }
           ]
         },
@@ -2107,55 +2154,68 @@ export default {
             },
             {
               id: 'T1560',
-              label: 'Archive Collected Data'
+              label: 'Archive Collected Data',
+              description: 'An adversary may compress and/or encrypt data that is collected prior to exfiltration. Compressing the data can help to obfuscate the collected data and minimize the amount of data sent over the network. Encryption can be used to hide information that is being exfiltrated from detection or make exfiltration less conspicuous upon inspection by a defender.'
             },
             {
               id: 'T1123',
-              label: 'Audio Capture'
+              label: 'Audio Capture',
+              description: 'An adversary can leverage a computer\'s peripheral devices (e.g., microphones and webcams) or applications (e.g., voice and video call services) to capture audio recordings for the purpose of listening into sensitive conversations to gather information.'
             },
             {
               id: 'T1119', 
-              label: 'Automated Collection'
+              label: 'Automated Collection',
+              description: 'Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of a Command and Scripting Interpreter to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. In cloud-based environments, adversaries may also use cloud APIs, command line interfaces, or extract, transform, and load (ETL) services to automatically collect data. This functionality could also be built into remote access tools.'
             },
             {
               id: 'T1185',
-              label: 'Browser Session Hijacking'
+              label: 'Browser Session Hijacking',
+              description: 'Adversaries may take advantage of security vulnerabilities and inherent functionality in browser software to change content, modify user-behaviors, and intercept information as part of various browser session hijacking techniques.'
             },
             {
               id: 'T1115',
-              label: 'Clipboard Data'
+              label: 'Clipboard Data',
+              description: 'Adversaries may collect data stored in the clipboard from users copying information within or between applications.'
             },
             {
               id: 'T1530', 
-              label: 'Data from Cloud Storage Object'
+              label: 'Data from Cloud Storage Object',
+              description: 'Adversaries may access data objects from improperly secured cloud storage.'
             },
             {
               id: 'T1602',
-              label: 'Data from Configuration Repository'
+              label: 'Data from Configuration Repository',
+              description: 'Adversaries may collect data related to managed devices from configuration repositories. Configuration repositories are used by management systems in order to configure, manage, and control data on remote systems. Configuration repositories may also facilitate remote access and administration of devices.'
             },
             {
               id: 'T1213', 
-              label: 'Data from Information Repositories'
+              label: 'Data from Information Repositories',
+              description: 'Adversaries may leverage information repositories to mine valuable information. Information repositories are tools that allow for storage of information, typically to facilitate collaboration or information sharing between users, and can store a wide variety of data that may aid adversaries in further objectives, or direct access to the target information. Adversaries may also abuse external sharing features to share sensitive documents with recipients outside of the organization.'
             },
             {
               id: 'T1005',
-              label: 'Data from Local System'
+              label: 'Data from Local System',
+              description: 'Adversaries may search local system sources, such as file systems and configuration files or local databases, to find files of interest and sensitive data prior to Exfiltration.'
             },
             {
               id: 'T1039',
-              label: 'Data from Network Shared Drive'
+              label: 'Data from Network Shared Drive',
+              description: 'Adversaries may search network shares on computers they have compromised to find files of interest. Sensitive data can be collected from remote systems via shared network drives (host shared directory, network file server, etc.) that are accessible from the current system prior to Exfiltration. Interactive command shells may be in use, and common functionality within cmd may be used to gather information.'
             },
             {
               id: 'T1025', 
-              label: 'Data from Removable Media'
+              label: 'Data from Removable Media',
+              description: 'Adversaries may search connected removable media on computers they have compromised to find files of interest. Sensitive data can be collected from any removable media (optical disk drive, USB memory, etc.) connected to the compromised system prior to Exfiltration. Interactive command shells may be in use, and common functionality within cmd may be used to gather information.'
             },
             {
               id: 'T1074',
-              label: 'Data Staged'
+              label: 'Data Staged',
+              description: 'Adversaries may stage collected data in a central location or directory prior to Exfiltration. Data may be kept in separate files or combined into one file through techniques such as Archive Collected Data. Interactive command shells may be used, and common functionality within cmd and bash may be used to copy data into a staging location.'
             },
             {
               id: 'T1114', 
-              label: 'Email Collection'
+              label: 'Email Collection',
+              description: '	Adversaries may target user email to collect sensitive information. Emails may contain sensitive data, including trade secrets or personal information, that can prove valuable to adversaries. Adversaries can collect or forward email from mail servers or clients'
             },
             {
               id: 'T1056',
@@ -2164,11 +2224,13 @@ export default {
             },
             {
               id: 'T1113',
-              label: 'Screen Capture'
+              label: 'Screen Capture',
+              description: 'Adversaries may attempt to take screen captures of the desktop to gather information over the course of an operation. Screen capturing functionality may be included as a feature of a remote access tool used in post-compromise operations. Taking a screenshot is also typically possible through native utilities or API calls, such as CopyFromScreen, xwd, or screencapture.'
             },
             {
               id: 'T1125', 
-              label: 'Video Capture'
+              label: 'Video Capture',
+              description: 'An adversary can leverage a computer\'s peripheral devices (e.g., integrated cameras or webcams) or applications (e.g., video call services) to capture video recordings for the purpose of gathering information. Images may also be captured from devices or applications, potentially in specified intervals, in lieu of video files.'
             }
           ]
         },
@@ -2179,59 +2241,73 @@ export default {
           d_techniques: [
             {
               id: 'T1071', 
-              label: 'Application Layer Protocol'
+              label: 'Application Layer Protocol',
+              description: 'Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server.'
             },
             {
               id: 'T1092',
-              label: 'Communication Through Removable Media'
+              label: 'Communication Through Removable Media',
+              description: 'Adversaries can perform command and control between compromised hosts on potentially disconnected networks using removable media to transfer commands from system to system. Both systems would need to be compromised, with the likelihood that an Internet-connected system was compromised first and the second through lateral movement by Replication Through Removable Media. Commands and files would be relayed from the disconnected system to the Internet-connected system to which the adversary has direct access.'
             },
             {
               id: 'T1132',
-              label: 'Data Encoding'
+              label: 'Data Encoding',
+              description: 'Adversaries may encode data to make the content of command and control traffic more difficult to detect. Command and control (C2) information can be encoded using a standard data encoding system. Use of data encoding may adhere to existing protocol specifications and includes use of ASCII, Unicode, Base64, MIME, or other binary-to-text and character encoding systems. Some data encoding systems may also result in data compression, such as gzip.'
             },
             {
               id: 'T1001', 
-              label: 'Data Obfuscation'
+              label: 'Data Obfuscation',
+              description: 'Adversaries may obfuscate command and control traffic to make it more difficult to detect. Command and control (C2) communications are hidden (but not necessarily encrypted) in an attempt to make the content more difficult to discover or decipher and to make the communication less conspicuous and hide commands from being seen. This encompasses many methods, such as adding junk data to protocol traffic, using steganography, or impersonating legitimate protocols.'
             },
             {
               id: 'T1568',
-              label: 'Dynamic Resolution'
+              label: 'Dynamic Resolution',
+              description: 'Adversaries may dynamically establish connections to command and control infrastructure to evade common detections and remediations. This may be achieved by using malware that shares a common algorithm with the infrastructure the adversary uses to receive the malware\'s communications. These calculations can be used to dynamically adjust parameters such as the domain name, IP address, or port number the malware uses for command and control.'
             },
             {
               id: 'T1573',
-              label: 'Encrypted Channel'
+              label: 'Encrypted Channel',
+              description: 'Adversaries may employ a known encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol. Despite the use of a secure algorithm, these implementations may be vulnerable to reverse engineering if secret keys are encoded and/or generated within malware samples/configuration files.'
             },
             {
               id: 'T1008', 
-              label: 'Fallback Channels'
+              label: 'Fallback Channels',
+              description: 'Adversaries may use fallback or alternate communication channels if the primary channel is compromised or inaccessible in order to maintain reliable command and control and to avoid data transfer thresholds.'
             },
             {
               id: 'T1105',
-              label: 'Ingress Tool Transfer'
+              label: 'Ingress Tool Transfer',
+              description: 'Adversaries may transfer tools or other files from an external system into a compromised environment. Tools or files may be copied from an external adversary-controlled system to the victim network through the command and control channel or through alternate protocols such as ftp. Once present, adversaries may also transfer/spread tools between victim devices within a compromised environment (i.e. Lateral Tool Transfer).'
             },
             {
               id: 'T1104', 
-              label: 'Multi-Stage Channels'
+              label: 'Multi-Stage Channels',
+              description: 'Adversaries may create multiple stages for command and control that are employed under different conditions or for certain functions. Use of multiple stages may obfuscate the command and control channel to make detection more difficult.'
             },
             {
               id: 'T1095',
-              label: 'Non-Application Layer Protocol'
+              label: 'Non-Application Layer Protocol',
+              description:'Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network. The list of possible protocols is extensive. Specific examples include use of network layer protocols, such as the Internet Control Message Protocol (ICMP), transport layer protocols, such as the User Datagram Protocol (UDP), session layer protocols, such as Socket Secure (SOCKS), as well as redirected/tunneled protocols, such as Serial over LAN (SOL).'
             },
             {
               id: 'T1571',
-              label: 'Non-Standard Port'
+              label: 'Non-Standard Port',
+              description: 'Adversaries may communicate using a protocol and port paring that are typically not associated. For example, HTTPS over port 8088 or port 587 as opposed to the traditional port 443. Adversaries may make changes to the standard port used by a protocol to bypass filtering or muddle analysis/parsing of network data.'
             },
             {
               id: 'T1572', 
-              label: 'Protocol Tunnelin'
+              label: 'Protocol Tunnelin',
+              description: 'Adversaries may tunnel network communications to and from a victim system within a separate protocol to avoid detection/network filtering and/or enable access to otherwise unreachable systems. Tunneling involves explicitly encapsulating a protocol within another. This behavior may conceal malicious traffic by blending in with existing traffic and/or provide an outer layer of encryption (similar to a VPN). Tunneling could also enable routing of network packets that would otherwise not reach their intended destination, such as SMB, RDP, or other traffic that would be filtered by network appliances or not routed over the Internet.'
             },
             {
               id: 'T1090',
-              label: 'Proxy'
+              label: 'Proxy',
+              description: 'Adversaries may use a connection proxy to direct network traffic between systems or act as an intermediary for network communications to a command and control server to avoid direct connections to their infrastructure. Many tools exist that enable traffic redirection through proxies or port redirection, including HTRAN, ZXProxy, and ZXPortMap. Adversaries use these types of proxies to manage command and control communications, reduce the number of simultaneous outbound network connections, provide resiliency in the face of connection loss, or to ride over existing trusted communications paths between victims to avoid suspicion. Adversaries may chain together multiple proxies to further disguise the source of malicious traffic.'
             },
             {
               id: 'T1219', 
-              label: 'Remote Access Software'
+              label: 'Remote Access Software',
+              description: 'An adversary may use legitimate desktop support and remote access software, such as Team Viewer, AnyDesk, Go2Assist, LogMein, AmmyyAdmin, etc, to establish an interactive command and control channel to target systems within networks. These services are commonly used as legitimate technical support software, and may be allowed by application control within a target environment. Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries.'
             },
             {
               id: 'T1205',
@@ -2240,7 +2316,8 @@ export default {
             },
             {
               id: 'T1102',
-              label: 'Web Service'
+              label: 'Web Service',
+              description: 'Adversaries may use an existing, legitimate external Web service as a means for relaying data to/from a compromised system. Popular websites and social media acting as a mechanism for C2 may give a significant amount of cover due to the likelihood that hosts within a network are already communicating with them prior to a compromise. Using common services, such as those offered by Google or Twitter, makes it easier for adversaries to hide in expected noise. Web service providers commonly use SSL/TLS encryption, giving adversaries an added level of protection.'
             }
           ]
         },
@@ -2251,39 +2328,48 @@ export default {
           d_techniques: [
             {
               id: 'T1020', 
-              label: 'Automated Exfiltration'
+              label: 'Automated Exfiltration',
+              description: 'Adversaries may exfiltrate data, such as sensitive documents, through the use of automated processing after being gathered during Collection.'
             },
             {
               id: 'T1030',
-              label: 'Data Transfer Size Limits'
+              label: 'Data Transfer Size Limits',
+              description: 'An adversary may exfiltrate data in fixed size chunks instead of whole files or limit packet sizes below certain thresholds. This approach may be used to avoid triggering network data transfer threshold alerts.'
             },
             {
               id: 'T1048',
-              label: 'Exfiltration Over Alternative Protocol'
+              label: 'Exfiltration Over Alternative Protocol',
+              description: 'Adversaries may steal data by exfiltrating it over a different protocol than that of the existing command and control channel. The data may also be sent to an alternate network location from the main command and control server.'
             },
             {
               id: 'T1041', 
-              label: 'Exfiltration Over C2 Channel'
+              label: 'Exfiltration Over C2 Channel',
+              description: 'Adversaries may steal data by exfiltrating it over an existing command and control channel. Stolen data is encoded into the normal communications channel using the same protocol as command and control communications.'
             },
             {
               id: 'T1011',
-              label: 'Exfiltration Over Other Network Medium'
+              label: 'Exfiltration Over Other Network Medium',
+              description: 'Adversaries may attempt to exfiltrate data over a different network medium than the command and control channel. If the command and control network is a wired Internet connection, the exfiltration may occur, for example, over a WiFi connection, modem, cellular data connection, Bluetooth, or another radio frequency (RF) channel.'
             },
             {
               id: 'T1052',
-              label: 'Exfiltration Over Physical Medium'
+              label: 'Exfiltration Over Physical Medium',
+              description: 'Adversaries may attempt to exfiltrate data via a physical medium, such as a removable drive. In certain circumstances, such as an air-gapped network compromise, exfiltration could occur via a physical medium or device introduced by a user. Such media could be an external hard drive, USB drive, cellular phone, MP3 player, or other removable storage and processing device. The physical medium or device could be used as the final exfiltration point or to hop between otherwise disconnected systems.'
             },
             {
               id: 'T1567', 
-              label: 'Exfiltration Over Web Service'
+              label: 'Exfiltration Over Web Service',
+              description: 'Adversaries may use an existing, legitimate external Web service to exfiltrate data rather than their primary command and control channel. Popular Web services acting as an exfiltration mechanism may give a significant amount of cover due to the likelihood that hosts within a network are already communicating with them prior to compromise. Firewall rules may also already exist to permit traffic to these services.'
             },
             {
               id: 'T1029',
-              label: 'Scheduled Transfer'
+              label: 'Scheduled Transfer',
+              description: 'Adversaries may schedule data exfiltration to be performed only at certain times of day or at certain intervals. This could be done to blend traffic patterns with normal activity or availability.'
             },
             {
               id: 'T1537', 
-              label: 'Transfer Data to Cloud Account'
+              label: 'Transfer Data to Cloud Account',
+              description: 'Adversaries may exfiltrate data by transferring the data, including backups of cloud environments, to another cloud account they control on the same service to avoid typical file transfers/downloads and network-based exfiltration detection.'
             }
           ]
         },
@@ -2294,55 +2380,68 @@ export default {
           d_techniques: [
             {
               id: 'T1531', 
-              label: 'Account Access Removal'
+              label: 'Account Access Removal',
+              description: 'Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users. Accounts may be deleted, locked, or manipulated (ex: changed credentials) to remove access to accounts. Adversaries may also subsequently log off and/or perform a System Shutdown/Reboot to set malicious changes into place.'
             },
             {
               id: 'T1485',
-              label: 'Data Destruction'
+              label: 'Data Destruction',
+              description: 'Adversaries may destroy data and files on specific systems or in large numbers on a network to interrupt availability to systems, services, and network resources. Data destruction is likely to render stored data irrecoverable by forensic techniques through overwriting files or data on local and remote drives. Common operating system file deletion commands such as del and rm often only remove pointers to files without wiping the contents of the files themselves, making the files recoverable by proper forensic methodology. This behavior is distinct from Disk Content Wipe and Disk Structure Wipe because individual files are destroyed rather than sections of a storage disk or the disk\'s logical structure.'
             },
             {
               id: 'T1486',
-              label: 'Data Encrypted for Impact'
+              label: 'Data Encrypted for Impact',
+              description: 'Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. They can attempt to render stored data inaccessible by encrypting files or data on local and remote drives and withholding access to a decryption key. This may be done in order to extract monetary compensation from a victim in exchange for decryption or a decryption key (ransomware) or to render data permanently inaccessible in cases where the key is not saved or transmitted.'
             },
             {
               id: 'T1565', 
-              label: 'Data Manipulation'
+              label: 'Data Manipulation',
+              description: 'Adversaries may insert, delete, or manipulate data in order to influence external outcomes or hide activity, thus threatening the integrity of the data. By manipulating data, adversaries may attempt to affect a business process, organizational understanding, or decision making.'
             },
             {
               id: 'T1491',
-              label: 'Defacement'
+              label: 'Defacement',
+              description: 'Adversaries may modify visual content available internally or externally to an enterprise network, thus affecting the integrity of the original content. Reasons for Defacement include delivering messaging, intimidation, or claiming (possibly false) credit for an intrusion. Disturbing or offensive images may be used as a part of Defacement in order to cause user discomfort, or to pressure compliance with accompanying messages.'
             },
             {
               id: 'T1561',
-              label: 'Disk Wipe'
+              label: 'Disk Wipe',
+              description: 'Adversaries may wipe or corrupt raw disk data on specific systems or in large numbers in a network to interrupt availability to system and network resources. With direct write access to a disk, adversaries may attempt to overwrite portions of disk data. Adversaries may opt to wipe arbitrary portions of disk data and/or wipe disk structures like the master boot record (MBR). A complete wipe of all disk sectors may be attempted.'
             },
             {
               id: 'T1499', 
-              label: 'Endpoint Denial of Service'
+              label: 'Endpoint Denial of Service',
+              description: 'Adversaries may perform Endpoint Denial of Service (DoS) attacks to degrade or block the availability of services to users. Endpoint DoS can be performed by exhausting the system resources those services are hosted on or exploiting the system to cause a persistent crash condition. Example services include websites, email services, DNS, and web-based applications. Adversaries have been observed conducting DoS attacks for political purposes and to support other malicious activities, including distraction, hacktivism, and extortion.'
             },
             {
               id: 'T1495',
-              label: 'Firmware Corruption'
+              label: 'Firmware Corruption',
+              description: 'Adversaries may overwrite or corrupt the flash memory contents of system BIOS or other firmware in devices attached to a system in order to render them inoperable or unable to boot, thus denying the availability to use the devices and/or the system. Firmware is software that is loaded and executed from non-volatile memory on hardware devices in order to initialize and manage device functionality. These devices could include the motherboard, hard drive, or video cards.'
             },
             {
               id: 'T1490', 
-              label: 'Inhibit System Recovery'
+              label: 'Inhibit System Recovery',
+              description: 'Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery. This may deny access to available backups and recovery options.'
             },
             {
               id: 'T1498',
-              label: 'Network Denial of Service'
+              label: 'Network Denial of Service',
+              description: 'Adversaries may perform Network Denial of Service (DoS) attacks to degrade or block the availability of targeted resources to users. Network DoS can be performed by exhausting the network bandwidth services rely on. Example resources include specific websites, email services, DNS, and web-based applications. Adversaries have been observed conducting network DoS attacks for political purposes and to support other malicious activities, including distraction, hacktivism, and extortion.'
             },
             {
               id: 'T1496',
-              label: 'Resource Hijacking'
+              label: 'Resource Hijacking',
+              description: 'Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems, which may impact system and/or hosted service availability.'
             },
             {
               id: 'T1489', 
-              label: 'Service Stop'
+              label: 'Service Stop',
+              description: 'Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident or aid in the \'s overall objectives to cause damage to the environment.'
             },
             {
               id: 'T1529',
-              label: 'System Shutdown/Reboot'
+              label: 'System Shutdown/Reboot',
+              description: 'Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems. Operating systems may contain commands to initiate a shutdown/reboot of a machine or network device. In some cases, these commands may also be used to initiate a shutdown/reboot of a remote computer or network device. Shutting down or rebooting systems may disrupt access to computer resources for legitimate users.'
             }
           ]
         }
@@ -2355,27 +2454,34 @@ export default {
       searchBar: '',
       searchTextArea: '', 
       isLoading: false, 
-      api_url: "https://api-cti.herokuapp.com/classification", // change api address 
-      search_url: "https://api-cti.herokuapp.com/searchattack",
+      api_url: "https://api-cti.herokuapp.com/classification", // API adress for classification 
+      search_url: "https://api-cti.herokuapp.com/searchattack", // API adress for search bar
       display_boxes: false,
       search_display_boxes: false,
     }
   },
-  methods: {
+  methods: { // retrieve response for search bar
     async submitSearchForm() {
       this.search_display_boxes = false
       this.display_boxes = false
       this.isLoading = true
       let response = await axios.post(this.search_url, {'sentence': this.searchBar}) // call API
       .then(response => {
-        this.techniques = response.data.techniques
-        this.description = response.data.description
-        }) // retrieve response
-      this.isLoading = false
-      this.search_display_boxes = true
-      this.display_boxes = false
+        if(response.data.status === 'found'){
+          this.techniques = response.data.techniques
+          this.description = response.data.description
+          this.search_display_boxes = true
+          this.display_boxes = false
+          this.isLoading = false
+        }
+        else{
+          this.search_display_boxes = true
+          this.description = "Sorry, at the moment the attack you searched for cannot be found in the MITRE ATT\&CK database. Please try pasting a report below to predict which TTPs were used."
+          this.isLoading = false
+        }
+      }) 
     },
-    async submitTextForm(){ // asynchronous request
+    async submitTextForm(){ // retrieve response for text classification
       this.display_boxes = false
       this.search_display_boxes = false
       this.isLoading = true
@@ -2390,7 +2496,7 @@ export default {
           this.probabilities.push(key);
           this.probabilities.push(value);
         }
-      }) // retrieve response
+      }) 
       this.isLoading = false
       this.display_boxes = true
       this.search_display_boxes = false
@@ -2452,8 +2558,8 @@ button{
   color: midnightblue;
 }
 #logo {
-  height: 200px;
-  width: 310px; 
+  height: 220px;
+  width: 330px; 
   text-align: center;
   display: flex;
 }

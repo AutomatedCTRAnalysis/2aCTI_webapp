@@ -1279,35 +1279,43 @@ export default {
             },
             {
               id: 'T1589',
-              label: 'Gather Victim Identity Information'
+              label: 'Gather Victim Identity Information',
+              description: 'Adversaries may gather information about the victim\'s identity that can be used during targeting. Information about identities may include a variety of details, including personal data (ex: employee names, email addresses, etc.) as well as sensitive details such as credentials.'
             },
             {
               id: 'T1590', 
-              label: 'Gather Victim Network Information'
+              label: 'Gather Victim Network Information',
+              description: 'Adversaries may gather information about the victim\'s networks that can be used during targeting. Information about networks may include a variety of details, including administrative data (ex: IP ranges, domain names, etc.) as well as specifics regarding its topology and operations.'
             },
             {
               id: 'T1591',
-              label: 'Gather Victim Org Information'
+              label: 'Gather Victim Org Information',
+              description: 'Adversaries may gather information about the victim\'s organization that can be used during targeting. Information about an organization may include a variety of details, including the names of divisions/departments, specifics of business operations, as well as the roles and responsibilities of key employees.'
             },
             {
               id: 'T1598',
-              label: 'Phishing for Information'
+              label: 'Phishing for Information',
+              description: 'Adversaries may send phishing messages to elicit sensitive information that can be used during targeting. Phishing for information is an attempt to trick targets into divulging information, frequently credentials or other actionable information. Phishing for information is different from Phishing in that the objective is gathering data from the victim rather than executing malicious code.'
             },
             {
               id: 'T1597', 
-              label: 'Search Closed Sources'
+              label: 'Search Closed Sources',
+              description: 'Adversaries may search and gather information about victims from closed sources that can be used during targeting. Information about victims may be available for purchase from reputable private sources and databases, such as paid subscriptions to feeds of technical/threat intelligence data. Adversaries may also purchase information from less-reputable sources such as dark web or cybercrime blackmarkets.'
             },
             {
               id: 'T1596',
-              label: 'Search Open Technical Databases'
+              label: 'Search Open Technical Databases',
+              description: 'Adversaries may search freely available technical databases for information about victims that can be used during targeting. Information about victims may be available in online databases and repositories, such as registrations of domains/certificates as well as public collections of network data/artifacts gathered from traffic and/or scans.'
             },
             {
               id: 'T1593',
-              label: 'Search Open Websites/Domains'
+              label: 'Search Open Websites/Domains',
+              description: 'Adversaries may search freely available websites and/or domains for information about victims that can be used during targeting. Information about victims may be available in various online sites, such as social media, new sites, or those hosting information about business operations such as hiring or requested/rewarded contracts.'
             },
             {
               id: 'T1594',
-              label: 'Search Victim-Owned Websites'
+              label: 'Search Victim-Owned Websites',
+              description: 'Adversaries may search websites owned by the victim for information that can be used during targeting. Victim-owned websites may contain a variety of details, including names of departments/divisions, physical locations, and data about key employees such as names, roles, and contact info (ex: Email Addresses). These sites may also have details highlighting business operations and relationships.'
             },
           ]
         },
@@ -1318,31 +1326,38 @@ export default {
           d_techniques: [
             {
               id: 'T1583', 
-              label: 'Acquire Infrastructure'
+              label: 'Acquire Infrastructure',
+              description: 'Adversaries may buy, lease, or rent infrastructure that can be used during targeting. A wide variety of infrastructure exists for hosting and orchestrating adversary operations. Infrastructure solutions include physical or cloud servers, domains, and third-party web services. Additionally, botnets are available for rent or purchase.'
             },
             {
               id: 'T1586',
-              label: 'Compromise Accounts'
+              label: 'Compromise Accounts',
+              description: 'Adversaries may compromise accounts with services that can be used during targeting. For operations incorporating social engineering, the utilization of an online persona may be important. Rather than creating and cultivating accounts (i.e. Establish Accounts), adversaries may compromise existing accounts. Utilizing an existing persona may engender a level of trust in a potential victim if they have a relationship, or knowledge of, the compromised persona.'
             },
             {
               id: 'T1584',
-              label: 'Compromise Infrastructure'
+              label: 'Compromise Infrastructure',
+              description: 'Adversaries may compromise third-party infrastructure that can be used during targeting. Infrastructure solutions include physical or cloud servers, domains, and third-party web and DNS services. Instead of buying, leasing, or renting infrastructure an adversary may compromise infrastructure and use it during other phases of the adversary lifecycle. Additionally, adversaries may compromise numerous machines to form a botnet they can leverage.'
             },
             {
               id: 'T1587', 
-              label: 'Develop Capabilities'
+              label: 'Develop Capabilities',
+              description: 'Adversaries may build capabilities that can be used during targeting. Rather than purchasing, freely downloading, or stealing capabilities, adversaries may develop their own capabilities in-house. This is the process of identifying development requirements and building solutions such as malware, exploits, and self-signed certificates. Adversaries may develop capabilities to support their operations throughout numerous phases of the adversary lifecycle.'
             },
             {
               id: 'T1585',
-              label: 'Establish Accounts'
+              label: 'Establish Accounts',
+              description: 'Adversaries may create and cultivate accounts with services that can be used during targeting. Adversaries can create accounts that can be used to build a persona to further operations. Persona development consists of the development of public information, presence, history and appropriate affiliations. This development could be applied to social media, website, or other publicly available information that could be referenced and scrutinized for legitimacy over the course of an operation using that persona or identity.'
             },
             {
               id: 'T1588',
-              label: 'Obtain Capabilities'
+              label: 'Obtain Capabilities',
+              description: 'Adversaries may buy and/or steal capabilities that can be used during targeting. Rather than developing their own capabilities in-house, adversaries may purchase, freely download, or steal them. Activities may include the acquisition of malware, software (including licenses), exploits, certificates, and information relating to vulnerabilities. Adversaries may obtain capabilities to support their operations throughout numerous phases of the adversary lifecycle.'
             },
             {
               id: 'T1608', 
-              label: 'Stage Capabilities'
+              label: 'Stage Capabilities',
+              description: 'Adversaries may upload, install, or otherwise set up capabilities that can be used during targeting. To support their operations, an adversary may need to take capabilities they developed (Develop Capabilities) or obtained (Obtain Capabilities) and stage them on infrastructure under their control. These capabilities may be staged on infrastructure that was previously purchased/rented by the adversary (Acquire Infrastructure) or was otherwise compromised by them (Compromise Infrastructure). Capabilities can also be staged on web services, such as GitHub or Pastebin.'
             }
           ]
         },

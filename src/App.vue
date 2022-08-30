@@ -262,6 +262,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[2].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
               :open="false" 
               position="is-bottom" 
@@ -346,6 +347,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[3].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -429,6 +431,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[4].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
               :open="false" 
               position="is-bottom" 
@@ -514,6 +517,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[5].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -597,6 +601,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[6].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -682,6 +687,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[7].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -704,7 +710,7 @@
 
       <div v-if="search_display_boxes" class="card-content">
         <div class="content">
-          <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
+          <b-message v-for="technique in d_tactic[7].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
             <b-collapse 
                 :open="false" 
@@ -767,6 +773,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[8].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -853,6 +860,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[9].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id)}" >
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -937,6 +945,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[10].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -1021,6 +1030,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[11].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -1105,6 +1115,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[12].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -1189,6 +1200,7 @@
         <div class="content">
           <b-message v-for="technique in d_tactic[13].d_techniques" :key="technique.label" :class="{ 'has-background-success': techniques.includes(technique.id), 'has-background-warning': !techniques.includes(technique.id) }">
             {{technique.label}}
+            {{searchProbabilityTech(technique.id)}}
             <b-collapse 
             :open="false" 
             position="is-bottom" 
@@ -2465,6 +2477,7 @@ export default {
       techniques: [],
       description: "",
       probabilities: [],
+      tech_proba: [],
       sentences: [],
       searchBar: '',
       searchTextArea: '', 
@@ -2506,6 +2519,8 @@ export default {
         this.tactics = response.data.tactics
         this.techniques = response.data.techniques
         this.sentences = response.data.relevant_sents
+        this.probabilities = []
+        this.tech_proba = []
         for (let [key, value] of Object.entries(response.data.relevant_tactic_dict)) {
           console.log(`${key}: ${value}`);
           this.probabilities.push(key);
@@ -2523,6 +2538,15 @@ export default {
       console.log(keyIndex)
       if(keyIndex != -1){
         return this.probabilities[keyIndex + 1];
+      }
+    },
+    searchProbabilityTech(techniqueID){
+      console.log(this.tech_proba)
+      const isSameValue = (element) => element == techniqueID
+      const keyIndex = this.tech_proba.findIndex(isSameValue);
+      console.log(keyIndex)
+      if(keyIndex != -1){
+        return this.tech_proba[keyIndex + 1];
       }
     }
   },
